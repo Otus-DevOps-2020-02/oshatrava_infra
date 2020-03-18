@@ -1,7 +1,7 @@
 # oshatrava_infra
 oshatrava Infra repository
 
-# Homework 5 (GCP | VPN)
+# Homework 3 (GCP | VPN)
 
 ## GCI VM's
 ~~~~~
@@ -36,3 +36,31 @@ Host someinternalhost
 VPN-сервера.*
 
 https://34.89.232.72.xip.io/
+
+
+# Homework 4 (GCP)
+~~~~~
+testapp_IP = 34.91.73.232
+testapp_port = 9292
+~~~~~
+
+Create VM instance
+~~~~~
+$ gcloud compute instances create reddit-app \
+    --boot-disk-size=10GB \
+    --image-family ubuntu-1604-lts \
+    --image-project=ubuntu-os-cloud \
+    --machine-type=g1-small \
+    --tags puma-server \
+    --restart-on-failure \
+    --metadata-from-file startup-script=startup.sh
+~~~~~
+
+Create firewall rule for port `tcp:9292`
+~~~~~
+$ gcloud compute firewall-rules create default-puma-server \
+    --direction=ingress \
+    --allow=tcp:9292 \
+    --source-ranges=0.0.0.0/0 \
+    --target-tags=puma-server
+~~~~~
