@@ -56,7 +56,7 @@ $ gcloud compute instances create reddit-app \
     --metadata-from-file startup-script=startup.sh
 ~~~~~
 
-Create firewall rule for port `tcp:9292`
+Create firewall rule
 ~~~~~
 $ gcloud compute firewall-rules create default-puma-server \
     --direction=ingress \
