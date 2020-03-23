@@ -1,5 +1,8 @@
 {
 	"variables": {
+		"project_id": "infra-271013",
+		"source_image": "reddit-base-1584897095",
+		"source_image_family": "reddit-full",
 		"machine_type": "f1-micro",
 		"zone": "europe-west1-b"
 	},
@@ -10,6 +13,7 @@
 			"image_name": "reddit-full-{{timestamp}}",
 			"image_family": "reddit-full",
 			"image_description": "RedditApp image with ruby and mongodb",
+			"source_image": "{{user `source_image`}}",
 			"source_image_family": "{{user `source_image_family`}}",
 			"zone": "{{user `zone`}}",
 			"ssh_username": "olegshatrava",
@@ -18,19 +22,20 @@
 			"disk_type": "pd-standard",
 			"network": "default",
 			"tags": [
-				"puma-server"
+				"puma-server",
+				"reddit-full"
 			]
 		}
 	],
 	"provisioners": [
 		{
 			"type": "shell",
-			"script": "scripts/install_ruby.sh",
+			"script": "files/deploy.sh",
 			"execute_command": "sudo {{.Path}}"
 		},
 		{
 			"type": "shell",
-			"script": "scripts/install_mongodb.sh",
+			"script": "files/start_server.sh",
 			"execute_command": "sudo {{.Path}}"
 		}
 	]
