@@ -64,3 +64,20 @@ $ gcloud compute firewall-rules create default-puma-server \
     --source-ranges=0.0.0.0/0 \
     --target-tags=puma-server
 ~~~~~
+
+
+# Homework 5 (Packer)
+1. Build base image
+~~~~
+$ packer build -var-file=variables.json ubuntu16.json
+~~~~
+
+2. Build an immutable `reddit-full` image
+~~~~
+$ packer build imuutable.json
+~~~~
+
+3. Running the `reddit-full` instance
+~~~~
+$ sh ./config-scripts/create-reddit-vm.sh
+~~~~
