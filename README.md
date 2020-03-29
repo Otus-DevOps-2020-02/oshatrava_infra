@@ -81,3 +81,17 @@ $ packer build imuutable.json
 ~~~~
 $ sh ./config-scripts/create-reddit-vm.sh
 ~~~~
+
+
+# Homework 6 (Terraform)
+1. Для добавления ssh-ключей нескольких пользователей в метаданные проекта, создан `resource "google_compute_project_metadata_item" "ssh-keys"`:
+~~~~
+resource "google_compute_project_metadata_item" "ssh-keys" {
+  key = "ssh-keys"
+  value = "olegshatrava:${file(var.public_key_path)}appuser1:${file(var.public_key_path)}appuser2:${file(var.public_key_path)}"
+}
+~~~~
+
+2. При добавление ssh-ключа через веб интерфейс, `terraform` удалит его после очередного применения конфигурации, так как в стейте терафора нету информации о создание ключа, который был добавлен через веб интерфейс. Чтобы исключить подобные проблемы, необходимо описывать все ключи в конфигарции `main.tf`
+
+3.

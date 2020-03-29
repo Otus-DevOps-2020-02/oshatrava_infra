@@ -9,10 +9,6 @@ provider "google" {
 }
 
 resource "google_compute_instance" "app" {
-  metadata = {
-    ssh-keys = "olegshatrava:${file(var.public_key_path)}"
-  }
-
   name         = "reddit-app"
   machine_type = "g1-small"
   zone         = var.zone
@@ -45,6 +41,11 @@ resource "google_compute_instance" "app" {
   provisioner "remote-exec" {
     script = "files/deploy.sh"
   }
+}
+
+resource "google_compute_project_metadata_item" "ssh-keys" {
+  key = "ssh-keys"
+  value = "olegshatrava:${file(var.public_key_path)}appuser1:${file(var.public_key_path)}appuser2:${file(var.public_key_path)}"
 }
 
 resource "google_compute_firewall" "firewall_puma" {
