@@ -1,0 +1,33 @@
+{
+	"variables": {
+		"machine_type": "f1-micro",
+		"zone": "europe-west1-b"
+	},
+	"builders": [
+		{
+			"type": "googlecompute",
+			"project_id": "{{user `project_id`}}",
+			"image_name": "reddit-app-base-{{timestamp}}",
+			"image_family": "reddit-app",
+			"image_description": "Reddit App ruby image",
+			"source_image_family": "{{user `source_image_family`}}",
+			"zone": "{{user `zone`}}",
+			"ssh_username": "olegshatrava",
+			"machine_type": "{{user `machine_type`}}",
+			"disk_size": "10",
+			"disk_type": "pd-standard",
+			"network": "default",
+			"tags": [
+				"reddit-app",
+				"puma-server"
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"script": "scripts/install_ruby.sh",
+			"execute_command": "sudo {{.Path}}"
+		}
+	]
+}
