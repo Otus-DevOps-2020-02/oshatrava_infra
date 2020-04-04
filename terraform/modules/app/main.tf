@@ -17,6 +17,9 @@ resource "google_compute_instance" "reddit_app_instance" {
       nat_ip = google_compute_address.reddit_app_ip.address
     }
   }
+  metadata = {
+    ssh-keys = "olegshatrava:${file(var.public_key_path)}"
+  }
 }
 
 # IP address

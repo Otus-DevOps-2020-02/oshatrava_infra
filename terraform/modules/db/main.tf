@@ -15,6 +15,9 @@ resource "google_compute_instance" "reddit_db_instance" {
     network = "default"
     access_config {}
   }
+  metadata = {
+    ssh-keys = "olegshatrava:${file(var.public_key_path)}"
+  }
 }
 
 # Firewall rules
