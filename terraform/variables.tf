@@ -9,6 +9,12 @@ variable "region" {
   default     = "europe-west1"
 }
 
+variable "vm_instance_count" {
+  type        = string
+  description = "Set counts instance"
+  default     = "1"
+}
+
 variable "zone" {
   type        = string
   description = "Zone"

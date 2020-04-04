@@ -2,14 +2,17 @@ terraform {
   required_version = "~> 0.12"
 }
 
+# Configure GCP
 provider "google" {
   version = "~> 2.15"
   project = var.project
   region  = var.region
 }
 
-resource "google_compute_instance" "app" {
-  name         = "reddit-app"
+# GCI create instance
+resource "google_compute_instance" "reddit_app_instance" {
+  count        = var.vm_instance_count
+  name         = "reddit-app${count.index}"
   machine_type = "g1-small"
   zone         = var.zone
   tags         = ["reddit-app"]
@@ -43,11 +46,13 @@ resource "google_compute_instance" "app" {
   }
 }
 
+# GCI metadata
 resource "google_compute_project_metadata_item" "ssh-keys" {
-  key = "ssh-keys"
+  key   = "ssh-keys"
   value = "olegshatrava:${file(var.public_key_path)}appuser1:${file(var.public_key_path)}appuser2:${file(var.public_key_path)}"
 }
 
+# GCI firewall
 resource "google_compute_firewall" "firewall_puma" {
   name    = "allow-puma-default"
   network = "default"
