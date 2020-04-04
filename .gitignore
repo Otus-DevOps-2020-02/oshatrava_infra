@@ -1,1 +1,9 @@
+# Exclude packer valiavles
 packer/variables.json
+
+# Exclude terraform backups
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
