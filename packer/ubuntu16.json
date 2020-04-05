@@ -3,7 +3,11 @@
 		"project_id": null,
 		"source_image_family": null,
 		"machine_type": "f1-micro",
-		"zone": "europe-west1-b"
+		"zone": "europe-west1-b",
+		"disk_size": "10",
+		"disk_type": "pd-standard",
+		"network": "default",
+		"tags": null
 	},
 	"builders": [
 		{
@@ -16,12 +20,10 @@
 			"zone": "{{user `zone`}}",
 			"ssh_username": "olegshatrava",
 			"machine_type": "{{user `machine_type`}}",
-			"disk_size": "10",
-			"disk_type": "pd-standard",
-			"network": "default",
-			"tags": [
-				"puma-server"
-			]
+			"disk_size": "{{user `disk_size`}}",
+			"disk_type": "{{user `disk_type`}}",
+			"network": "{{user `network`}}",
+			"tags": "{{user `tags`}}"
 		}
 	],
 	"provisioners": [

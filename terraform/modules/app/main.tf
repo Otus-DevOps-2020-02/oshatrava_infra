@@ -1,7 +1,8 @@
 # VM app instance
 resource "google_compute_instance" "reddit_app_instance" {
-  name         = "reddit-app"
-  machine_type = "g1-small"
+  count        = var.vm_instance_count
+  name         = "reddit-app-${count.index + 1}"
+  machine_type = var.machine_type
   zone         = var.zone
   tags = [
     "reddit-app",
@@ -32,8 +33,8 @@ resource "google_compute_firewall" "firewall_puma" {
   name    = "allow-puma-default"
   network = "default"
   allow {
-    protocol = "tcp"
-    ports    = ["9292"]
+    protocol = var.puma_protocol
+    ports    = var.puma_ports
   }
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["reddit-app"]

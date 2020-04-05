@@ -103,3 +103,8 @@ resource "google_compute_instance" "reddit_app_instance" {
   name         = "reddit-app${count.index}"
 }
 ~~~~~
+
+# Homework 7 (Terraform module)
+1. Созданы модули `app`, `db`, `vpc`.
+2. Cозданы окружения `stage`, `prod`, с ограничением доступа к `ssh` по допустимым списком ip адресов указаным в `source_ranges`.
+3. Каждое из окружений имеет удаленное хранение стейта в GCI.

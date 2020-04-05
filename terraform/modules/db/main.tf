@@ -1,7 +1,8 @@
 # VM db instance
 resource "google_compute_instance" "reddit_db_instance" {
-  name         = "reddit-db"
-  machine_type = "g1-small"
+  count        = var.vm_instance_count
+  name         = "reddit-db-${count.index + 1}"
+  machine_type = var.machine_type
   zone         = var.zone
   tags = [
     "reddit-db",
@@ -25,8 +26,8 @@ resource "google_compute_firewall" "firewall_mongo" {
   name    = "allow-mongo-default"
   network = "default"
   allow {
-    protocol = "tcp"
-    ports    = ["27017"]
+    protocol = var.mongo_protocol
+    ports    = var.mongo_ports
   }
   target_tags = ["reddit-db"]
   source_tags = ["reddit-app"]

@@ -11,20 +11,20 @@ provider "google" {
 
 # Modules
 module "app" {
-  source          = "./modules/app"
+  source          = "../modules/app"
   zone            = var.zone
-  public_key_path = var.public_key_path
   app_disk_image  = var.app_disk_image
+  public_key_path = var.public_key_path
 }
 
 module "db" {
-  source          = "./modules/db"
+  source          = "../modules/db"
   zone            = var.zone
-  public_key_path = var.public_key_path
   db_disk_image   = var.db_disk_image
+  public_key_path = var.public_key_path
 }
 
-module "vps" {
-  source        = "./modules/vps"
-  source_ranges = var.source_ranges
+module "vpc" {
+  source        = "../modules/vpc"
+  source_ranges = ["0.0.0.0/0"]
 }
