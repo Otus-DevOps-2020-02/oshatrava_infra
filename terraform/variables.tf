@@ -8,30 +8,3 @@ variable "region" {
   description = "Region"
   default     = "europe-west1"
 }
-
-variable "vm_instance_count" {
-  type        = string
-  description = "Set counts instance"
-  default     = "1"
-}
-
-variable "zone" {
-  type        = string
-  description = "Zone"
-  default     = "europe-west1-b"
-}
-
-variable "public_key_path" {
-  type        = string
-  description = "Path to the public key used for ssh access"
-}
-
-variable "private_key_path" {
-  type        = string
-  description = "Path to the private key used for ssh access"
-}
-
-variable "disk_image" {
-  type        = string
-  description = "Disk image"
-}
