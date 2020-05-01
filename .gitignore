@@ -7,3 +7,9 @@ packer/variables.json
 *.tfstate.backup
 *.tfvars
 .terraform/
+
+# Ansible
+*.retry
+
+# Other
+.vscode
