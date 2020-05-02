@@ -3,7 +3,7 @@
   hosts: app
   become: true
   vars:
-    db_host: 10.132.15.192
+    db_host: "{{ hostvars[groups['db'][0]].networkInterfaces[0].networkIP }}"
   tasks:
     - name: Add unit file for Puma
       copy:
@@ -22,5 +22,4 @@
       systemd: name=puma enabled=yes
 
   handlers:
-    - name: reload puma
-      systemd: name=puma state=restarted
+  - import_tasks: handlers/handlers.yml

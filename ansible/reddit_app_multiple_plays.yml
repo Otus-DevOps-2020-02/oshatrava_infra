@@ -6,64 +6,57 @@
   vars:
     mongo_bind_ip: 0.0.0.0
   tasks:
-    - name: Change mongo config file
-      template:
-        src: templates/mongod.conf.j2
-        dest: /etc/mongod.conf
-        mode: 0644
-      notify: restart mongod
+  - name: Change mongo config file
+    template:
+      src: templates/mongod.conf.j2
+      dest: /etc/mongod.conf
+      mode: 0644
+    notify: restart mongod
 
   handlers:
-    - name: restart mongod
-      service: name=mongod state=restarted
-
+  - import_tasks: handlers/handlers.yml
 
 - name: Configure Application
   hosts: app
   tags: app-tag
   become: true
   vars:
-    db_host: 10.132.0.62
+    db_host: "{{ hostvars[groups['db'][0]].networkInterfaces[0].networkIP }}"
   tasks:
-    - name: Add unit file for Puma
-      copy:
-        src: files/puma.service
-        dest: /etc/systemd/system/puma.service
-      notify: reload puma
+  - name: Add unit file for Puma
+    copy:
+      src: files/puma.service
+      dest: /etc/systemd/system/puma.service
+    notify: reload puma
 
-    - name: Add config for DB connection
-      template:
-        src: templates/db_config.j2
-        dest: /home/olegshatrava/db_config
-        owner: olegshatrava
-        group: olegshatrava
+  - name: Add config for DB connection
+    template:
+      src: templates/db_config.j2
+      dest: /home/olegshatrava/db_config
+      owner: olegshatrava
+      group: olegshatrava
 
-    - name: Enable puma
-      systemd: name=puma enabled=yes
+  - name: Enable puma
+    systemd: name=puma enabled=yes
 
   handlers:
-    - name: reload puma
-      systemd: name=puma state=restarted
-
+  - import_tasks: handlers/handlers.yml
 
 - name: Deploy Application
   hosts: app
-  become: true
   tags: deploy-tag
   tasks:
-    - name: Fetch the latest version of application code
-      git:
-        repo: 'https://github.com/express42/reddit.git'
-        dest: /home/olegshatrava/reddit
-        version: monolith
-      notify: reload puma
+  - name: Fetch the latest version of application code
+    git:
+      repo: 'https://github.com/express42/reddit.git'
+      dest: /home/olegshatrava/reddit
+      version: monolith
+    notify: reload puma
 
-    - name: Bundle install
-      bundler:
-        state: present
-        chdir: /home/olegshatrava/reddit
+  - name: Bundler install
+    bundler:
+      state: present
+      chdir: /home/olegshatrava/reddit
 
   handlers:
-    - name: reload puma
-      systemd: name=puma state=restarted
-    
+  - import_tasks: handlers/handlers.yml
