@@ -1,0 +1,10 @@
+# http://docs.testing.ansible.com/ansible/latest/plugins/inventory/gcp_compute.html
+# Uses a YAML configuration file that ends with gcp_compute.(yml|yaml) or gcp.(yml|yaml).
+plugin: gcp_compute
+zones:
+  - europe-west1-b
+projects:
+  - infra-271013
+filters: []
+auth_kind: serviceaccount
+service_account_file: ~/.gcp/infra-sa.json
