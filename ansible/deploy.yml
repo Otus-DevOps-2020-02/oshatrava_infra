@@ -15,4 +15,7 @@
       chdir: /home/olegshatrava/reddit
 
   handlers:
-  - import_tasks: handlers/handlers.yml
+    - name: reload puma
+      systemd:
+        name: puma
+        state: restarted

@@ -22,4 +22,5 @@
       systemd: name=puma enabled=yes
 
   handlers:
-  - import_tasks: handlers/handlers.yml
+    - name: reload puma
+      systemd: name=puma state=restarted

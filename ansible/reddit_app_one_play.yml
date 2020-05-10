@@ -52,7 +52,11 @@
 
   handlers:
     - name: reload puma
-      systemd: name=puma state=restarted
+      systemd:
+        name: puma
+        state: restarted
 
     - name: restart mongod
-      service: name=mongod state=restarted
+      service: 
+        name: mongod 
+        state: restarted

@@ -14,7 +14,10 @@
     notify: restart mongod
 
   handlers:
-  - import_tasks: handlers/handlers.yml
+  - name: restart mongod
+    service: 
+      name: mongod 
+      state: restarted
 
 - name: Configure Application
   hosts: app
@@ -40,7 +43,10 @@
     systemd: name=puma enabled=yes
 
   handlers:
-  - import_tasks: handlers/handlers.yml
+  - name: reload puma
+    systemd:
+      name: puma
+      state: restarted
 
 - name: Deploy Application
   hosts: app
@@ -59,4 +65,7 @@
       chdir: /home/olegshatrava/reddit
 
   handlers:
-  - import_tasks: handlers/handlers.yml
+  - name: reload puma
+    systemd:
+      name: puma
+      state: restarted
