@@ -1,7 +1,7 @@
 - name: Clone
   hosts: app
   tasks:
-    - name: Clone Reddit repo
-      git:
-        repo: https://github.com/express42/reddit.git
-        dest: /home/olegshatrava/reddit
+  - name: Clone Reddit repo
+    git:
+      repo: https://github.com/express42/reddit.git
+      dest: /home/olegshatrava/reddit
