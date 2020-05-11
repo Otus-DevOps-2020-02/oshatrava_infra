@@ -1,58 +1,43 @@
 ---
-- name: Configure MongoDB
-  hosts: db
-  tags: db-tag
-  become: true
+- name: Configure hosts & deploy application
+  hosts: all
   vars:
     mongo_bind_ip: 0.0.0.0
+    db_host: "{{ hostvars[groups['db'][0]].networkInterfaces[0].networkIP }}"
   tasks:
+  # DB
   - name: Change mongo config file
+    tags: db-tag
+    become: true
     template:
       src: templates/mongod.conf.j2
       dest: /etc/mongod.conf
       mode: 0644
     notify: restart mongod
 
-  handlers:
-  - name: restart mongod
-    service: 
-      name: mongod 
-      state: restarted
-
-- name: Configure Application
-  hosts: app
-  tags: app-tag
-  become: true
-  vars:
-    db_host: "{{ hostvars[groups['db'][0]].networkInterfaces[0].networkIP }}"
-  tasks:
+  # App
   - name: Add unit file for Puma
+    tags: app-tag
+    become: true
     copy:
       src: files/puma.service
       dest: /etc/systemd/system/puma.service
     notify: reload puma
 
   - name: Add config for DB connection
+    tags: app-tag
     template:
       src: templates/db_config.j2
       dest: /home/olegshatrava/db_config
-      owner: olegshatrava
-      group: olegshatrava
 
   - name: Enable puma
+    tags: app-tag
+    become: true
     systemd: name=puma enabled=yes
 
-  handlers:
-  - name: reload puma
-    systemd:
-      name: puma
-      state: restarted
-
-- name: Deploy Application
-  hosts: app
-  tags: deploy-tag
-  tasks:
+  # Deploy
   - name: Fetch the latest version of application code
+    tags: deploy-tag
     git:
       repo: 'https://github.com/express42/reddit.git'
       dest: /home/olegshatrava/reddit
@@ -60,12 +45,18 @@
     notify: reload puma
 
   - name: Bundler install
+    tags: deploy-tag
     bundler:
-      state: present
       chdir: /home/olegshatrava/reddit
+      state: present
 
   handlers:
   - name: reload puma
     systemd:
       name: puma
+      state: restarted
+
+  - name: restart mongod
+    service:
+      name: mongod
       state: restarted

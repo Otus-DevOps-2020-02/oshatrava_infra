@@ -34,5 +34,5 @@ variable "puma_protocol" {
 
 variable "puma_ports" {
   description = "Puma app port"
-  default = ["9292"]
+  default = ["9292", "80"]
 }

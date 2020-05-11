@@ -2,9 +2,10 @@
 - name: Configure Application
   hosts: app
   become: true
-  
+
   vars:
-    db_host: "{{ hostvars[groups['db'][0]].networkInterfaces[0].networkIP }}"
+    db_host: 10.132.15.223
 
   roles:
     - app
+    - jdauphant.nginx
