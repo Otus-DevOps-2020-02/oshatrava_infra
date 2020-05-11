@@ -124,3 +124,9 @@ changed: [appserver]
 PLAY RECAP ***********************************************************************************************************************************************************************************
 appserver                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ````
+~~~~~
+
+# Homework 9 (Ansible playbooks)
+1. Созданы плейбуки в виде единного файла `reddit_app_one_play.yml`, `reddit_app_multiple_plays.yml`, так же с разделениям по задачам `app.yml`, `clone.yml`, `db.yml`, `deploy.yml`.
+2. Так же создан общий файл для запуска всех сценариев развертывания проекта `site.yml`
+3. Созданы сценарии для провижининга плейбуков в `packer_app.yml`, `packer_db.yml`

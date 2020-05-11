@@ -1,5 +1,5 @@
 {
     "project_id": "infra-271013",
     "source_image_family": "ubuntu-1604-lts",
-    "tags": "puma-server, reddit-app"
+    "tags": "puma-server,reddit-app"
 }
