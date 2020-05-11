@@ -5,17 +5,16 @@
   - name: Fetch the latest version of application code
     git:
       repo: 'https://github.com/express42/reddit.git'
-      dest: /home/olegshatrava/reddit
+      dest: "/home/olegshatrava/reddit"
       version: monolith
     notify: reload puma
 
-  - name: Bundler install
+  - name: Bundle install
     bundler:
       state: present
-      chdir: /home/olegshatrava/reddit
+      chdir: "/home/olegshatrava/reddit"
 
   handlers:
   - name: reload puma
-    systemd:
-      name: puma
-      state: restarted
+    become: true
+    systemd: name=puma state=restarted
