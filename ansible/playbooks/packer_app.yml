@@ -1,6 +1,6 @@
 ---
 - name: Install Ruby and Bundler
-  hosts: app
+  hosts: all
   become: true
   vars:
     packages:
@@ -8,9 +8,10 @@
       - ruby-bundler
       - build-essential
   tasks:
+  - name: Update apt cache
+    apt: update_cache=yes
+
   - name: Install Ruby and required packages
     apt:
-      name: "{{ item }}"
+      name: "{{ packages }}"
       state: present
-      update_cache: yes
-    with_items: "{{ packages }}"

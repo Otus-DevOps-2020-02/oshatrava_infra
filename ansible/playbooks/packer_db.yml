@@ -1,6 +1,6 @@
 ---
 - name: Install MongoDB 4.2
-  hosts: db
+  hosts: all
   become: true
   tasks:
   - name: Add APT key
@@ -10,10 +10,13 @@
 
   - name: Add APT repository
     apt_repository:
-      repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse
+      repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse"
       state: present
 
-  - name:  Install packages
+  - name: Update APT cache
+    apt: update_cache=yes
+
+  - name: Install packages
     apt:
       name: mongodb-org
       state: present

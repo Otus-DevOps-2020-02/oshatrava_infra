@@ -1,4 +1,4 @@
 project          = "infra-271013"
 public_key_path  = "~/.ssh/id_rsa.pub"
-app_disk_image   = "reddit-app-base-1586039556"
-db_disk_image    = "reddit-db-base-1586039278"
+app_disk_image   = "reddit-app-base-1591478881"
+db_disk_image    = "reddit-db-base-1591480248"
